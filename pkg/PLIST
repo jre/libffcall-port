@@ -1,0 +1,31 @@
+@comment $OpenBSD: PLIST,v$
+include/avcall.h
+include/callback.h
+include/ffcall-abi.h
+include/ffcall-version.h
+include/trampoline.h
+include/vacall.h
+include/vacall_r.h
+lib/libavcall.a
+lib/libavcall.la
+@lib lib/libavcall.so.${LIBavcall_VERSION}
+lib/libcallback.a
+lib/libcallback.la
+@lib lib/libcallback.so.${LIBcallback_VERSION}
+lib/libffcall.a
+lib/libffcall.la
+@lib lib/libffcall.so.${LIBffcall_VERSION}
+lib/libtrampoline.a
+lib/libtrampoline.la
+@lib lib/libtrampoline.so.${LIBtrampoline_VERSION}
+lib/libvacall.a
+@man man/man3/avcall.3
+@man man/man3/callback.3
+@man man/man3/trampoline.3
+@man man/man3/vacall.3
+share/doc/ffcall/
+share/doc/ffcall/html/
+share/doc/ffcall/html/avcall.html
+share/doc/ffcall/html/callback.html
+share/doc/ffcall/html/trampoline.html
+share/doc/ffcall/html/vacall.html
