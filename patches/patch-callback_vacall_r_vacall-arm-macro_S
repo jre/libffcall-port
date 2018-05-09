@@ -1,0 +1,65 @@
+$OpenBSD$
+
+Index: callback/vacall_r/vacall-arm-macro.S
+--- callback/vacall_r/vacall-arm-macro.S.orig
++++ callback/vacall_r/vacall-arm-macro.S
+@@ -23,20 +23,20 @@ FUNBEGIN(callback_receiver)
+ 	ldr	pc, [r4, $0]
+ 	ldr	r2, [fp, $-24]
+ 	cmp	r2, $0
+-	ldmeqea	fp, {r4, fp, sp, pc}
++	ldmeaeq	fp, {r4, fp, sp, pc}
+ 	cmp	r2, $1
+ 	beq	L(36)
+ 	cmp	r2, $2
+-	ldreqsb	r0, [fp, $-40]
+-	ldmeqea	fp, {r4, fp, sp, pc}
++	ldrsbeq	r0, [fp, $-40]
++	ldmeaeq	fp, {r4, fp, sp, pc}
+ 	cmp	r2, $3
+ 	beq	L(36)
+ 	cmp	r2, $4
+-	ldreqsh	r0, [fp, $-40]
+-	ldmeqea	fp, {r4, fp, sp, pc}
++	ldrsheq	r0, [fp, $-40]
++	ldmeaeq	fp, {r4, fp, sp, pc}
+ 	cmp	r2, $5
+-	ldreqh	r0, [fp, $-40]
+-	ldmeqea	fp, {r4, fp, sp, pc}
++	ldrheq	r0, [fp, $-40]
++	ldmeaeq	fp, {r4, fp, sp, pc}
+ 	cmp	r2, $6
+ 	beq	L(40)
+ 	cmp	r2, $7
+@@ -50,25 +50,25 @@ FUNBEGIN(callback_receiver)
+ 	bls	L(41)
+ 	cmp	r2, $12
+ 	ldreq	r0, [fp, $-40]	// float
+-	ldmeqea	fp, {r4, fp, sp, pc}
++	ldmeaeq	fp, {r4, fp, sp, pc}
+ 	cmp	r2, $13
+ 	beq	L(41)
+ 	cmp	r2, $14
+ 	beq	L(40)
+ 	cmp	r2, $15
+-	ldmneea	fp, {r4, fp, sp, pc}
++	ldmeane	fp, {r4, fp, sp, pc}
+ 	ldr	r3, [fp, $-48]
+ 	tst	r3, $1024
+-	ldmeqea	fp, {r4, fp, sp, pc}
++	ldmeaeq	fp, {r4, fp, sp, pc}
+ 	ldr	r3, [fp, $-20]
+ 	cmp	r3, $1
+ 	ldreq	r3, [fp, $-28]
+-	ldreqb	r0, [r3, $0]	// zero_extendqisi2
+-	ldmeqea	fp, {r4, fp, sp, pc}
++	ldrbeq	r0, [r3, $0]	// zero_extendqisi2
++	ldmeaeq	fp, {r4, fp, sp, pc}
+ 	cmp	r3, $2
+ 	ldreq	r3, [fp, $-28]
+ 	ldrne	r3, [fp, $-28]
+-	ldreqh	r0, [r3, $0]
++	ldrheq	r0, [r3, $0]
+ 	ldrne	r0, [r3, $0]
+ 	ldmea	fp, {r4, fp, sp, pc}
+ L(40):

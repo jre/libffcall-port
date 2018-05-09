@@ -1,0 +1,14 @@
+$OpenBSD$
+
+Index: avcall/avcall-arm-macro.S
+--- avcall/avcall-arm-macro.S.orig
++++ avcall/avcall-arm-macro.S
+@@ -65,7 +65,7 @@ L(47):
+ 	beq	L(8)
+ 	cmp	r2, $14
+ 	ldreq	r3, [r5, $8]
+-	stmeqia	r3, {r0-r1}	// double
++	stmiaeq	r3, {r0-r1}	// double
+ 	beq	L(8)
+ 	cmp	r2, $15
+ 	beq	L(57)
