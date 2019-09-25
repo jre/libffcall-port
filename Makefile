@@ -1,11 +1,12 @@
 # $OpenBSD$
 
 # aarch64 arm powerpc
-ONLY_FOR_ARCHS =	amd64 i386 sparc64
+ONLY_FOR_ARCHS =	aarch64 amd64 i386 sparc64
+USE_WXNEEDED =		Yes
 
 COMMENT =	foreign function call interface library
 
-DISTNAME =	libffcall-2.1
+DISTNAME =	libffcall-2.2
 SHARED_LIBS =	avcall		2.0 \
 		callback	2.0 \
 		ffcall		0.0 \
@@ -15,7 +16,7 @@ HOMEPAGE =	https://www.gnu.org/software/libffcall/
 MASTER_SITES =	${MASTER_SITE_GNU:=libffcall/}
 
 # GPLv2+
-PERMIT_PACKAGE_CDROM =	Yes
+PERMIT_PACKAGE =	Yes
 
 CONFIGURE_STYLE =	gnu
 FAKE_FLAGS=		htmldir="\$$(datadir)/doc/ffcall/html"
