@@ -1,7 +1,6 @@
 # $OpenBSD$
 
-# aarch64 arm powerpc
-ONLY_FOR_ARCHS =	aarch64 amd64 i386 sparc64
+ONLY_FOR_ARCHS =	aarch64 amd64 arm i386 sparc64
 USE_WXNEEDED =		Yes
 
 COMMENT =	foreign function call interface library

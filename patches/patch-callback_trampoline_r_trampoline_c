@@ -1,0 +1,33 @@
+$OpenBSD$
+
+Index: callback/trampoline_r/trampoline.c
+--- callback/trampoline_r/trampoline.c.orig
++++ callback/trampoline_r/trampoline.c
+@@ -193,6 +193,11 @@ extern RETGETPAGESIZETYPE getpagesize (void);
+ #endif
+ 
+ /* Support for instruction cache flush. */
++#if defined(__arm__) || defined(__armhf__)
++#ifdef __OpenBSD__
++#include <machine/sysarch.h>
++#endif
++#endif
+ #ifdef __i386__
+ #if defined(_WIN32) && ! defined(__CYGWIN__) /* native Windows */
+ #define WIN32_LEAN_AND_MEAN
+@@ -1408,7 +1413,14 @@ __TR_function alloc_trampoline_r (__TR_function addres
+   /* On ARM64, cache flushing is done through special instructions,
+      and the length of the cache lines must be determined at runtime.
+      See gcc/libgcc/config/aarch64/sync-cache.c. */
+-#if defined(__GNUC__)
++#if defined(__OpenBSD__) && !defined(__arm64__)
++  {
++    struct arm_sync_icache_args args;
++    args.addr = (size_t)function_x;
++    args.len = TRAMP_CODE_LENGTH;
++    sysarch(ARM_SYNC_ICACHE, &args);
++  }
++#elif defined(__GNUC__)
+   /* Use the GCC built-in. */
+   __clear_cache((void*)function_x,(void*)(function_x+TRAMP_CODE_LENGTH));
+ #else
