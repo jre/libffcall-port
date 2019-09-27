@@ -1,0 +1,31 @@
+$OpenBSD$
+
+Index: vacall/vacall-internal.h
+--- vacall/vacall-internal.h.orig
++++ vacall/vacall-internal.h
+@@ -279,7 +279,7 @@ typedef struct vacall_alist
+ #define __va_start_struct1(LIST,TYPE_SIZE,TYPE_ALIGN,TYPE_SPLITTABLE)  \
+   ((LIST)->flags |= __VA_REGISTER_STRUCT_RETURN, 0)
+ #endif
+-#if (defined(__i386__) && !defined(_WIN32)) || defined(__m68k__) || (defined(__powerpc__) && !defined(__powerpc64__)) || (defined(__s390__) && !defined(__s390x__))
++#if (defined(__i386__) && !defined(_WIN32)) || defined(__m68k__) || (defined(__powerpc__) && !defined(__powerpc64__) && !defined(__OpenBSD__)) || (defined(__s390__) && !defined(__s390x__))
+ #define __va_reg_struct_return(LIST,TYPE_SIZE,TYPE_SPLITTABLE)  \
+   ((TYPE_SIZE) == 1 || (TYPE_SIZE) == 2 || (TYPE_SIZE) == 4		\
+    || ((TYPE_SIZE) == 8 && (TYPE_SPLITTABLE)				\
+@@ -353,6 +353,16 @@ typedef struct vacall_alist
+    (TYPE_ALIGN) == sizeof(double) && (TYPE_SPLITTABLE)				\
+     && ((TYPE_SIZE) == sizeof(double) || (TYPE_SIZE) == 2*sizeof(double))	\
+     && ((LIST)->flags |= __VA_REGISTER_DOUBLESTRUCT_RETURN),			\
++   0)
++#endif
++#if defined(__powerpc__) && !defined(__powerpc64__) && defined(__OpenBSD__)
++#define __va_reg_struct_return(LIST,TYPE_SIZE,TYPE_SPLITTABLE)  \
++  ((TYPE_SIZE) <= 8)
++/* Turn on __VA_REGISTER_STRUCT_RETURN if __VA_SMALL_STRUCT_RETURN was set
++ * and the struct will actually be returned in registers.
++ */
++#define __va_start_struct1(LIST,TYPE_SIZE,TYPE_ALIGN,TYPE_SPLITTABLE)  \
++  ((LIST)->flags |= __VA_REGISTER_STRUCT_RETURN,			\
+    0)
+ #endif
+ #if (defined(__powerpc64__) && !defined(__powerpc64_elfv2__)) || defined(__s390x__)

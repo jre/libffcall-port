@@ -1,0 +1,30 @@
+$OpenBSD$
+
+Index: avcall/avcall-internal.h
+--- avcall/avcall-internal.h.orig
++++ avcall/avcall-internal.h
+@@ -191,7 +191,7 @@ typedef int __av_alist_verify[2*(__AV_ALIST_SIZE_BOUND
+ #define __av_start_struct3(LIST)  \
+   ((LIST).flags |= __AV_REGISTER_STRUCT_RETURN, 0)
+ #endif
+-#if (defined(__i386__) && !defined(_WIN32)) || defined(__m68k__) || (defined(__powerpc__) && !defined(__powerpc64__)) || (defined(__s390__) && !defined(__s390x__))
++#if (defined(__i386__) && !defined(_WIN32)) || defined(__m68k__) || (defined(__powerpc__) && !defined(__powerpc64__) && !defined(__OpenBSD__)) || (defined(__s390__) && !defined(__s390x__))
+ #define __av_reg_struct_return(LIST,TYPE_SIZE,TYPE_SPLITTABLE)  \
+   ((TYPE_SIZE) == 1 || (TYPE_SIZE) == 2 || (TYPE_SIZE) == 4		\
+    || ((TYPE_SIZE) == 8 && (TYPE_SPLITTABLE)				\
+@@ -241,6 +241,15 @@ typedef int __av_alist_verify[2*(__AV_ALIST_SIZE_BOUND
+    ? ((TYPE_SIZE) == 1 || (TYPE_SIZE) == 2 || (TYPE_SIZE) == 4 || (TYPE_SIZE) == 8) \
+    : ((TYPE_SIZE) <= 16)						\
+   )
++/* Turn on __AV_REGISTER_STRUCT_RETURN if __AV_SMALL_STRUCT_RETURN was set
++ * and the struct will actually be returned in registers.
++ */
++#define __av_start_struct3(LIST)  \
++  ((LIST).flags |= __AV_REGISTER_STRUCT_RETURN, 0)
++#endif
++#if defined(__powerpc__) && !defined(__powerpc64__) && defined(__OpenBSD__)
++#define __av_reg_struct_return(LIST,TYPE_SIZE,TYPE_SPLITTABLE)  \
++  ((TYPE_SIZE) <= 8)
+ /* Turn on __AV_REGISTER_STRUCT_RETURN if __AV_SMALL_STRUCT_RETURN was set
+  * and the struct will actually be returned in registers.
+  */
