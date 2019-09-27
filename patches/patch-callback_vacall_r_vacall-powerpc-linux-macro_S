@@ -2,6 +2,8 @@ $OpenBSD$
 
 struct-copying code taken from hppa
 
+hand-modified to follow the secure plt abi
+
 Index: callback/vacall_r/vacall-powerpc-linux-macro.S
 --- callback/vacall_r/vacall-powerpc-linux-macro.S.orig
 +++ callback/vacall_r/vacall-powerpc-linux-macro.S
@@ -104,3 +106,24 @@ Index: callback/vacall_r/vacall-powerpc-linux-macro.S
  .L40:
  	lwz 3,24(31)
  	b .L1
+@@ -150,8 +195,6 @@ callback_receiver:
+ 	.section	".text"
+ 	.align 2
+ 	.globl callback_get_receiver
+-.LCL1:
+-	.long .LCTOC1-.LCF1
+ 	.type	callback_get_receiver, @function
+ callback_get_receiver:
+ 	stwu 1,-32(1)
+@@ -164,9 +207,9 @@ callback_get_receiver:
+ 	mr 31,1
+ 	stw 0,36(1)
+ 	lwz 11,0(1)
+-	lwz 0,.LCL1-.LCF1(30)
+ 	lwz 31,-4(11)
+-	add 30,0,30
++	addis 30,30,.LCTOC1-.LCF1@ha
++	addi 30,30,.LCTOC1-.LCF1@l
+ 	lwz 0,4(11)
+ 	lwz 3,.LC0-.LCTOC1(30)
+ 	lwz 30,-8(11)
