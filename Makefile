@@ -20,11 +20,6 @@ PERMIT_PACKAGE =	Yes
 CONFIGURE_STYLE =	gnu
 FAKE_FLAGS=		htmldir="\$$(datadir)/doc/ffcall/html"
 
-.if ${MACHINE_ARCH} == "amd64"
-CFLAGS +=	-nopie
-CXXFLAGS +=	-nopie
-.endif
-
 pre-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/doc/ffcall/html
 
