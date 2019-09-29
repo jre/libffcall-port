@@ -1,7 +1,6 @@
 # $OpenBSD$
 
-ONLY_FOR_ARCHS =	aarch64 amd64 arm i386 sparc64
-USE_WXNEEDED =		Yes
+ONLY_FOR_ARCHS =	aarch64 amd64 arm i386 powerpc sparc64
 
 COMMENT =	foreign function call interface library
 
@@ -19,6 +18,10 @@ PERMIT_PACKAGE =	Yes
 
 CONFIGURE_STYLE =	gnu
 FAKE_FLAGS=		htmldir="\$$(datadir)/doc/ffcall/html"
+
+USE_WXNEEDED =		Yes
+CONFIGURE_ENV +=	ffcall_cv_codeexec=no \
+			ffcall_cv_malloc_mprotect_can_exec=yes
 
 pre-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/doc/ffcall/html
