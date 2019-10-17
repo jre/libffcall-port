@@ -1,16 +1,202 @@
 $OpenBSD$
 
-struct-copying code taken from hppa
-
-hand-modified to follow the secure plt abi
+Built from avcall-powerpc.c with struct-copying code taken from hppa,
+using gcc 4.1.2 and -msecure-plt
 
 Index: callback/vacall_r/vacall-powerpc-linux-macro.S
 --- callback/vacall_r/vacall-powerpc-linux-macro.S.orig
 +++ callback/vacall_r/vacall-powerpc-linux-macro.S
-@@ -92,31 +92,76 @@ callback_receiver:
- 	lwz 0,16(31)
- 	andi. 9,0,1024
- 	beq- 0,.L1
+@@ -1,4 +1,6 @@
+ 	.file	"vacall-powerpc.c"
++	.section	".got2","aw"
++.LCTOC1 = .+32768
+ 	.section	".text"
+ 	.align 2
+ 	.type	callback_receiver, @function
+@@ -9,168 +11,226 @@ callback_receiver:
+ 	.extern __divus
+ 	.extern __quoss
+ 	.extern __quous
+-	stwu 1,-176(1)
+ 	mflr 0
++	stwu 1,-176(1)
++	stw 29,164(1)
++	li 29,0
+ 	stw 0,180(1)
+ 	stw 31,172(1)
+ 	mr 31,1
+-	stw 29,164(1)
++	stw 28,160(1)
+ 	addi 0,31,184
+-	li 29,0
+-	stw 0,32(31)
+-	stw 29,36(31)
+-	lwz 0,0(11)
+-	stw 3,52(31)
+-	stw 4,56(31)
+-	mtctr 0
+-	stw 9,76(31)
+-	addi 4,31,16
++	stw 29,28(31)
++	lwz 28,0(11)
++	stw 3,44(31)
++	stw 4,48(31)
++	mtctr 28
++	stw 9,68(31)
++	addi 4,31,8
+ 	stw 30,168(1)
+-	stw 5,60(31)
+-	stw 6,64(31)
+-	stw 7,68(31)
+-	stw 8,72(31)
+-	stw 10,80(31)
+-	stw 29,84(31)
+-	stfd 1,88(31)
+-	stfd 2,96(31)
+-	stfd 3,104(31)
+-	stfd 4,112(31)
+-	stfd 5,120(31)
+-	stfd 6,128(31)
+-	stfd 7,136(31)
+-	stfd 8,144(31)
+-	stw 29,16(31)
+-	stw 29,48(31)
++	stw 5,52(31)
++	stw 6,56(31)
++	stw 7,60(31)
++	stw 8,64(31)
++	stw 10,72(31)
++	stw 0,24(31)
++	stw 29,76(31)
++	stfd 1,80(31)
++	stfd 2,88(31)
++	stfd 3,96(31)
++	stfd 4,104(31)
++	stfd 5,112(31)
++	stfd 6,120(31)
++	stfd 7,128(31)
++	stfd 8,136(31)
++	stw 29,8(31)
+ 	stw 29,40(31)
++	stw 29,32(31)
+ 	lwz 3,4(11)
+ 	bctrl
+-	lwz 9,40(31)
+-	cmpwi 0,9,0
+-	beq- 0,.L1
+-	cmpwi 0,9,1
+-	beq- 0,.L41
+-	cmpwi 0,9,2
+-	beq- 0,.L42
+-	cmpwi 0,9,3
+-	beq- 0,.L41
+-	cmpwi 0,9,4
+-	beq- 0,.L43
+-	cmpwi 0,9,5
+-	beq- 0,.L44
+-	cmpwi 0,9,6
+-	beq- 0,.L40
+-	cmpwi 0,9,7
+-	beq- 0,.L40
+-	cmpwi 0,9,8
+-	beq- 0,.L40
+-	cmpwi 0,9,9
+-	beq- 0,.L40
++	lwz 9,32(31)
++	cmpwi 7,9,0
++	beq- 7,.L39
++	cmpwi 7,9,1
++	beq- 7,.L40
++	cmpwi 7,9,2
++	beq- 7,.L46
++	cmpwi 7,9,3
++	beq- 7,.L40
++	cmpwi 7,9,4
++	beq- 7,.L47
++	cmpwi 7,9,5
++	beq- 7,.L48
++	cmpwi 7,9,6
++	beq- 7,.L44
++	cmpwi 7,9,7
++	beq- 7,.L44
++	cmpwi 7,9,8
++	beq- 7,.L44
++	cmpwi 7,9,9
++	beq- 7,.L44
+ 	addi 0,9,-10
+-	cmplwi 0,0,1
+-	bgt- 0,.L22
+-	lwz 3,24(31)
+-	lwz 4,28(31)
+-.L1:
++	cmplwi 7,0,1
++	ble- 7,.L49
++	cmpwi 7,9,12
++	beq- 7,.L50
++	cmpwi 7,9,13
++	beq- 7,.L51
++	cmpwi 7,9,14
++	beq- 7,.L44
++	cmpwi 7,9,15
++	bne- 7,.L39
++	lwz 0,8(31)
++	andi. 9,0,1024
++	beq- 0,.L39
++	lwz 9,36(31)
++	addi 0,9,-1
++	cmplwi 7,0,7
++	bgt- 7,.L39
++	cmplwi 7,9,4
++	lwz 0,28(31)
++	rlwinm 8,0,0,30,31
++	rlwinm 6,0,0,0,29
++	add 5,9,8
++	bgt- 7,.L33
++	cmplwi 7,5,4
++	slwi 0,8,3
++	subfic 0,0,31
++	li 9,2
++	slw 9,9,0
++	addi 8,9,-1
++	bgt- 7,.L35
++	lwz 9,0(6)
++	slwi 0,5,3
++	subfic 0,0,32
++	and 9,8,9
++	sraw 3,9,0
++.L39:
+ 	lwz 11,0(1)
+ 	lwz 0,4(11)
++	lwz 28,-16(11)
+ 	lwz 29,-12(11)
++	mtlr 0
+ 	lwz 30,-8(11)
++	lwz 31,-4(11)
++	mr 1,11
++	blr
++.L40:
++	lwz 11,0(1)
++	lbz 3,16(31)
++	lwz 0,4(11)
++	lwz 28,-16(11)
++	lwz 29,-12(11)
+ 	mtlr 0
++	lwz 30,-8(11)
+ 	lwz 31,-4(11)
+ 	mr 1,11
+ 	blr
+-.L22:
+-	cmpwi 0,9,12
+-	beq- 0,.L45
+-	cmpwi 0,9,13
+-	beq- 0,.L46
+-	cmpwi 0,9,14
+-	beq- 0,.L40
+-	cmpwi 0,9,15
+-	bne+ 0,.L1
+-	lwz 0,16(31)
+-	andi. 9,0,1024
+-	beq- 0,.L1
 -	lwz 0,44(31)
 -	cmpwi 0,0,1
 -	beq- 0,.L47
@@ -22,91 +208,125 @@ Index: callback/vacall_r/vacall-powerpc-linux-macro.S
 -	bne+ 0,.L1
 -	lwz 9,36(31)
 -	lwz 4,4(9)
-+	lwz 9,44(31)
-+	addi 0,9,-1
-+	cmplwi 0,0,7
-+	bgt- 0,.L1
-+	lwz 0,36(31)
-+	cmplwi 0,9,4
-+	rlwinm 8,0,0,30,31
-+	rlwinm 5,0,0,0,29
-+	add 6,8,9
-+	bgt- 0,.L33
-+	slwi 0,8,3
-+	cmplwi 0,6,4
-+	subfic 0,0,31
-+	li 9,2
-+	slw 9,9,0
-+	addi 7,9,-1
-+	bgt- 0,.L34
-+	lwz 9,0(5)
-+	slwi 0,6,3
-+	subfic 0,0,32
-+	and 9,9,7
-+	sraw 3,9,0
-+	b .L1
-+.L34:
-+	lwz 0,0(5)
-+	slwi 9,6,3
-+	lwz 10,4(5)
-+	subfic 8,9,64
-+	and 0,0,7
-+	addi 9,9,-32
-+	slw 0,0,9
-+	sraw 10,10,8
- .L39:
+-.L39:
 -	lwz 3,0(9)
-+	or 3,10,0
- 	b .L1
+-	b .L1
 -.L49:
 -	lwz 9,36(31)
 -	b .L39
 -.L48:
 -	lwz 9,36(31)
 -	lhz 3,0(9)
+-	b .L1
+ .L47:
+-	lwz 9,36(31)
+-	lbz 3,0(9)
+-	b .L1
+-.L40:
+-	lwz 3,24(31)
+-	b .L1
+-.L46:
+-	lfd 1,24(31)
+-	b .L1
+-.L45:
+-	lfs 1,24(31)
+-	b .L1
++	lha 3,16(31)
++	b .L39
+ .L44:
+-	lhz 3,24(31)
+-	b .L1
+-.L43:
+-	lha 3,24(31)
+-	b .L1
+-.L41:
+-	lbz 3,24(31)
+-	b .L1
+-.L42:
+-	lbz 0,24(31)
++	lwz 3,16(31)
++	b .L39
++.L46:
++	lbz 0,16(31)
++	lwz 11,0(1)
+ 	slwi 0,0,24
+ 	srawi 3,0,24
+-	b .L1
++	lwz 0,4(11)
++	lwz 28,-16(11)
++	lwz 29,-12(11)
++	mtlr 0
++	lwz 30,-8(11)
++	lwz 31,-4(11)
++	mr 1,11
++	blr
++.L48:
++	lhz 3,16(31)
++	b .L39
++.L50:
++	lfs 1,16(31)
++	b .L39
++.L49:
++	lwz 3,16(31)
++	lwz 4,20(31)
++	b .L39
++.L51:
++	lfd 1,16(31)
++	b .L39
 +.L33:
++	cmplwi 7,5,8
 +	slwi 0,8,3
-+	cmplwi 0,6,8
 +	subfic 0,0,31
 +	li 9,2
 +	slw 9,9,0
 +	addi 29,9,-1
-+	bgt- 0,.L37
-+	lwz 7,0(5)
-+	slwi 10,6,2
++	bgt- 7,.L37
++	lwz 7,0(6)
++	slwi 10,5,2
 +	addi 10,10,-16
-+	lwz 8,4(5)
-+	and 7,7,29
-+	slwi 9,6,3
++	lwz 8,4(6)
++	and 7,29,7
++	slwi 9,5,3
 +	subfic 9,9,64
 +	slw 0,7,10
 +	slw 0,0,10
 +	sraw 8,8,9
 +	or 4,0,8
 +	sraw 3,7,9
- 	b .L1
--.L47:
--	lwz 9,36(31)
--	lbz 3,0(9)
--	b .L1
-+.L37:
-+	slwi 9,6,3
-+	lwz 0,4(5)
-+	lwz 10,0(5)
-+	subfic 6,9,96
-+	lwz 8,8(5)
-+	addi 9,9,-64
-+	slw 7,0,9
-+	and 10,10,29
-+	sraw 8,8,6
-+	slw 10,10,9
-+	sraw 0,0,6
-+	or 4,7,8
 +	b .L39
- .L40:
- 	lwz 3,24(31)
- 	b .L1
-@@ -150,8 +195,6 @@ callback_receiver:
++.L35:
++	lwz 0,0(6)
++	slwi 9,5,3
++	lwz 10,4(6)
++	and 0,8,0
++	subfic 8,9,64
++	addi 9,9,-32
++	sraw 10,10,8
++	slw 0,0,9
++	or 3,0,10
++	b .L39
++.L37:
++	lwz 10,0(6)
++	slwi 9,5,3
++	lwz 8,8(6)
++	subfic 7,9,96
++	lwz 0,4(6)
++	addi 9,9,-64
++	and 10,29,10
++	sraw 8,8,7
++	slw 6,0,9
++	slw 10,10,9
++	sraw 0,0,7
++	or 4,6,8
++	or 3,10,0
++	b .L39
+ 	.size	callback_receiver, .-callback_receiver
+ 	.section	".got2","aw"
+-.LCTOC1 = .+32768
+-	.section	".text"
+-	.section	".got2","aw"
+ .LC0:
+ 	.long callback_receiver
  	.section	".text"
  	.align 2
  	.globl callback_get_receiver
@@ -114,16 +334,30 @@ Index: callback/vacall_r/vacall-powerpc-linux-macro.S
 -	.long .LCTOC1-.LCF1
  	.type	callback_get_receiver, @function
  callback_get_receiver:
- 	stwu 1,-32(1)
-@@ -164,9 +207,9 @@ callback_get_receiver:
+-	stwu 1,-32(1)
++	stwu 1,-16(1)
+ 	mflr 0
+ 	bcl 20,31,.LCF1
+ .LCF1:
+-	stw 30,24(1)
++	stw 30,8(1)
+ 	mflr 30
+-	stw 31,28(1)
++	stw 31,12(1)
  	mr 31,1
- 	stw 0,36(1)
+-	stw 0,36(1)
++	stw 0,20(1)
  	lwz 11,0(1)
 -	lwz 0,.LCL1-.LCF1(30)
- 	lwz 31,-4(11)
+-	lwz 31,-4(11)
 -	add 30,0,30
 +	addis 30,30,.LCTOC1-.LCF1@ha
 +	addi 30,30,.LCTOC1-.LCF1@l
  	lwz 0,4(11)
  	lwz 3,.LC0-.LCTOC1(30)
  	lwz 30,-8(11)
+ 	mtlr 0
++	lwz 31,-4(11)
+ 	mr 1,11
+ 	blr
+ 	.size	callback_get_receiver, .-callback_get_receiver
