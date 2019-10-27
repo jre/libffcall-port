@@ -1,6 +1,6 @@
 # $OpenBSD$
 
-ONLY_FOR_ARCHS =	aarch64 amd64 arm i386 powerpc sparc64
+ONLY_FOR_ARCHS =	aarch64 amd64 arm i386 mips64 powerpc sparc64
 
 COMMENT =	foreign function call interface library
 

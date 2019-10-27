@@ -1,0 +1,19 @@
+$OpenBSD$
+
+Index: vacall/tests.c
+--- vacall/tests.c.orig
++++ vacall/tests.c
+@@ -1639,11 +1639,11 @@ int main (void)
+     fflush(out);
+ 
+     usr = us_cdcd(c1,d2,c3,d4);
+-    fprintf(out,"->%u\n",usr);
++    fprintf(out,"->%hu\n",usr);
+     fflush(out);
+     usr = 0; clear_traces();
+     current_function = (void*) &us_cdcd; usr = ((ushort (*) (char,double,char,double)) vacall) (c1,d2,c3,d4);
+-    fprintf(out,"->%u\n",usr);
++    fprintf(out,"->%hu\n",usr);
+     fflush(out);
+ 
+     llr = ll_iiilli(i1,i2,i3,ll1,i13);

@@ -1,0 +1,23 @@
+$OpenBSD$
+
+Index: avcall/tests.c
+--- avcall/tests.c.orig
++++ avcall/tests.c
+@@ -519,7 +519,7 @@ void
+   fflush(out);
+ 
+   usr = us_cdcd(c1,d2,c3,d4);
+-  fprintf(out,"->%u\n",usr);
++  fprintf(out,"->%hu\n",usr);
+   fflush(out);
+   usr = 0; clear_traces();
+   av_start_ushort(a,us_cdcd,&usr);
+@@ -528,7 +528,7 @@ void
+   av_char(a,c3);
+   av_double(a,d4);
+   av_call(a);
+-  fprintf(out,"->%u\n",usr);
++  fprintf(out,"->%hu\n",usr);
+   fflush(out);
+ 
+   /* Long long types.

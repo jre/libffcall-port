@@ -1,0 +1,20 @@
+$OpenBSD$
+
+Index: callback/tests.c
+--- callback/tests.c.orig
++++ callback/tests.c
+@@ -1743,12 +1743,12 @@ int main (void)
+     fflush(out);
+ 
+     usr = us_cdcd(c1,d2,c3,d4);
+-    fprintf(out,"->%u\n",usr);
++    fprintf(out,"->%hu\n",usr);
+     fflush(out);
+     usr = 0; clear_traces();
+     callback = alloc_callback(&us_cdcd_simulator,(void*)&us_cdcd);
+     usr = ((ushort (*) (char,double,char,double)) callback) (c1,d2,c3,d4);
+-    fprintf(out,"->%u\n",usr);
++    fprintf(out,"->%hu\n",usr);
+     fflush(out);
+ 
+     llr = ll_iiilli(i1,i2,i3,ll1,i13);
