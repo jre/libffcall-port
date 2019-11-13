@@ -1,5 +1,6 @@
 # $OpenBSD$
 
+# XXX alpha hppa mips64el
 ONLY_FOR_ARCHS =	aarch64 amd64 arm i386 mips64 powerpc sparc64
 
 COMMENT =	foreign function call interface library
