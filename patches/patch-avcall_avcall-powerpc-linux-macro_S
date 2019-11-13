@@ -1,6 +1,7 @@
 $OpenBSD$
 
-Built from avcall-powerpc.c with struct-copying code taken from hppa.
+Built using the upstream development environment from avcall-powerpc.c
+with the (incorrect) small struct copying code taken from hppa.
 
 Index: avcall/avcall-powerpc-linux-macro.S
 --- avcall/avcall-powerpc-linux-macro.S.orig

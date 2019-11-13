@@ -1,5 +1,7 @@
 $OpenBSD$
 
+Print shorts with %hu rather than %u
+
 Index: vacall/tests.c
 --- vacall/tests.c.orig
 +++ vacall/tests.c

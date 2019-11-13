@@ -1,5 +1,7 @@
 $OpenBSD$
 
+Return small structs in registers on powerpc
+
 Index: avcall/avcall.h
 --- avcall/avcall.h.orig
 +++ avcall/avcall.h

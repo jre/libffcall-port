@@ -1,5 +1,7 @@
 $OpenBSD$
 
+Update asm to build with clang
+
 Index: avcall/avcall-arm-macro.S
 --- avcall/avcall-arm-macro.S.orig
 +++ avcall/avcall-arm-macro.S

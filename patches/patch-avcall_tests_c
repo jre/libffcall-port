@@ -1,5 +1,7 @@
 $OpenBSD$
 
+Print shorts with %hu rather than %u
+
 Index: avcall/tests.c
 --- avcall/tests.c.orig
 +++ avcall/tests.c

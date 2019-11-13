@@ -1,5 +1,7 @@
 $OpenBSD$
 
+Print shorts with %hu rather than %u
+
 Index: callback/tests.c
 --- callback/tests.c.orig
 +++ callback/tests.c

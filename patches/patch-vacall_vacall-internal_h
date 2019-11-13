@@ -1,5 +1,7 @@
 $OpenBSD$
 
+Return small structs in registers on powerpc
+
 Index: vacall/vacall-internal.h
 --- vacall/vacall-internal.h.orig
 +++ vacall/vacall-internal.h

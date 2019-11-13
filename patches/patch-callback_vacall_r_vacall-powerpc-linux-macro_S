@@ -1,7 +1,8 @@
 $OpenBSD$
 
-Built from avcall-powerpc.c with struct-copying code taken from hppa,
-using gcc 4.1.2 and -msecure-plt
+Built using the upstream development environment from avcall-powerpc.c
+with the (incorrect) small struct copying code taken from hppa, but
+with gcc 4.1.2 and -msecure-plt
 
 Index: callback/vacall_r/vacall-powerpc-linux-macro.S
 --- callback/vacall_r/vacall-powerpc-linux-macro.S.orig
