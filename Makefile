@@ -24,10 +24,6 @@ USE_WXNEEDED =		Yes
 CONFIGURE_ENV +=	ffcall_cv_codeexec=no \
 			ffcall_cv_malloc_mprotect_can_exec=yes
 
-.if ${MACHINE_ARCH} == "amd64" || ${MACHINE_ARCH} == "powerpc"
-MAKE_FLAGS +=		KLUDGEFLAGS=-nopie
-.endif
-
 pre-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/doc/ffcall/html
 
